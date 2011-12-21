@@ -17,9 +17,13 @@ port = config["mysql_settings"]["port"]
 database = config["mysql_settings"]["database"]
 log_location = config["mysql_settings"]["log_location"]
 
-seed = "t3_nhypy"
-
 DB = Sequel.connect("mysql://#{username}:#{password}@#{ip}:#{port}/#{database}", :logger => Logger.new("#{log_location}"))
+
+seed = DB["SELECT name FROM submissions ORDER BY id DESC LIMIT 1"].first[:name]
+
+if seed == nil 
+  seed = "t3_nhypy"
+end
 
 unless DB.table_exists?(:submissions) 
   DB.create_table :submissions do

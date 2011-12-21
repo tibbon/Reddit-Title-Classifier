@@ -1,0 +1,22 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    httparty (0.8.1)
+      multi_json
+      multi_xml
+    json (1.6.3)
+    logger (1.2.8)
+    multi_json (1.0.4)
+    multi_xml (0.4.1)
+    mysql (2.8.1)
+    sequel (3.30.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  httparty
+  json
+  logger
+  mysql
+  sequel
