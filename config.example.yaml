@@ -1,0 +1,8 @@
+---
+mysql_settings:
+    username : mysql
+    password : foobars
+    ip : example.com
+    port : 3306
+    database : reddit_example
+    log_location : ./log/database.log

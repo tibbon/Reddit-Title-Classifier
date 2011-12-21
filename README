@@ -1,0 +1,13 @@
+Recently on a mailing list, a hypothesis was postulated that success on Reddit may have a great deal to do with content of titles. In an attempt to see if this is true, I am writing an application to study and test it. This is that application. 
+
+It has three parts, a scraper (using Reddit's JSON API), a classifier and a grader. The scraper acquires the data and stores it to a MySQL database (although almost certainly, nearly any database will work), the classifier will query the database and attempt to use a bayesian classifier to mark stories as positive/negative in terms of success, and the grader allows the input of a potential title to see if it has potential for success.
+
+To determine the relative success, it has been suggested that I look at the ratio of up to down votes. It is unclear is this will yield the best results. 
+
+Currently, the scraper works. 
+
+Unfortunately, I have not (yet) written any tests, and have only tried this on Ruby 1.9.2. Feel free to ask any questions. 
+
+All code by me here will be MIT licensed once I get a chance to grab the right license file. 
+
+For more information on good social network research, check out the Web Ecology Project at http://webecologyproject.org
