@@ -15,7 +15,7 @@ def query_reddit(start_point)
   #response = response["data"]["children"]
   #response.sort! { |a,b| b["data"]["created_utc"].to_i <=> a["data"]["created_utc"].to_i}
   end_point = nil
-  r = Reddit::Api.new "tibbon", "b25mff"
+  r = Reddit::Api.new @reddit_username, @reddit_password
   r.login
   if start_point.empty?
     response = r.browse "all/new", {:limit => 100}

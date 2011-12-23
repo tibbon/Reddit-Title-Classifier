@@ -16,6 +16,8 @@ ip = config["mysql_settings"]["ip"]
 port = config["mysql_settings"]["port"]
 database = config["mysql_settings"]["database"]
 log_location = config["mysql_settings"]["log_location"]
+@reddit_username = config["reddit"]["username"]
+@reddit_password = config["reddit"]["password"]
 
 DB = Sequel.connect("mysql://#{username}:#{password}@#{ip}:#{port}/#{database}", :logger => Logger.new("#{log_location}"))
 
