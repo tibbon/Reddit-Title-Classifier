@@ -1,47 +1,56 @@
+require "ruby_reddit_api"
+require "pp"
 require_relative 'model'
 
 
-def query_reddit(start_point, count)  
-  if count.nil?
-    url = "http://www.reddit.com/r/all/new/.json?limit=100"
+def query_reddit(start_point)  
+  #if count.nil?
+  #  url = "http://www.reddit.com/r/guitar/new/.json?limit=100"
+  #else
+  #  url = "http://www.reddit.com/r/guitar/new/.json?limit=100&count=#{count}&after=#{start_point}" #t3_nlz9o
+  #end
+  #response = JSON.parse HTTParty.get(url).response.body
+  #pp response
+  #end_point = response["data"]["after"]
+  #response = response["data"]["children"]
+  #response.sort! { |a,b| b["data"]["created_utc"].to_i <=> a["data"]["created_utc"].to_i}
+  end_point = nil
+  r = Reddit::Api.new "tibbon", "b25mff"
+  r.login
+  if start_point.empty?
+    response = r.browse "all/new", {:limit => 100}
   else
-    url = "http://www.reddit.com/r/all/new/.json?limit=100&count=#{count}&after=#{start_point}"
+    response = r.browse "all/new", {:limit => 100, :after => start_point}
   end
-  response = JSON.parse HTTParty.get(url).response.body
   
-  end_point = response["data"]["after"]
-  response = response["data"]["children"]
-  response.sort! { |a,b| b["data"]["created_utc"].to_i <=> a["data"]["created_utc"].to_i}
+  end_point = response.first[:after]
+  p "Query: " + start_point
+  p "Next page: " + end_point
   response.each do |submission|
     begin
+      p submission.title
       Submission.create(
-      :title => submission["data"]["title"],
-      :subreddit => submission["data"]["subreddit"],
-      :name => submission["data"]["name"],
-      :ups => submission["data"]["ups"],
-      :downs => submission["data"]["downs"],
-      :score => submission["data"]["score"],
-      :author => submission["data"]["author"],
-      :domain => submission["data"]["domain"],
-      :selftext => submission["data"]["selftext"],
-      :media => submission["data"]["media"],
-      :url => submission["data"]["url"],
-      :thumbnail => submission["data"]["thumbnail"],
-      :num_comments => submission["data"]["num_comments"],
-      :created_utc => submission["data"]["created_utc"])
+      :title => submission.title,
+      :subreddit => submission.subreddit,
+      :name => submission.name,
+      :ups => submission.ups,
+      :downs => submission.downs,
+      :score => submission.score,
+      :author => submission.author,
+      :domain => submission.domain,
+      :selftext => submission.selftext,
+      :media => submission.media,
+      :url => submission.url,
+      :thumbnail => submission.thumbnail,
+      :num_comments => submission.num_comments,
+      :created_utc => submission.created_utc)
     rescue
     end
-    p submission["data"]["name"] + " " + Time.at(submission["data"]["created_utc"]).to_s
   end
   return end_point
 end
 
-@count = nil
-next_seed = query_reddit(@seed, @count)
-@count = 0
+next_seed = "t3_nlxg4"
 100000.times do 
-  p @count += 100
-  p ""
-  #p next_seed
-  next_seed = query_reddit(next_seed, @count)
+  next_seed = query_reddit(next_seed)
 end
