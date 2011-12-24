@@ -50,7 +50,7 @@ def query_reddit(subreddit,start_point)
   return end_point
 end
 
-next_seed = "t3_nlxg4"
+next_seed = "t3_nlmry"
 subreddit = "all"
 100.times do 
   next_seed = query_reddit(subreddit,next_seed)
