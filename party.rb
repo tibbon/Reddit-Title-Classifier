@@ -3,7 +3,7 @@ require "pp"
 require_relative 'model'
 
 
-def query_reddit(start_point)  
+def query_reddit(subreddit,start_point)  
   #if count.nil?
   #  url = "http://www.reddit.com/r/guitar/new/.json?limit=100"
   #else
@@ -18,9 +18,9 @@ def query_reddit(start_point)
   r = Reddit::Api.new @reddit_username, @reddit_password
   r.login
   if start_point.empty?
-    response = r.browse "all/new", {:limit => 100}
+    response = r.browse "#{subreddit}/new", {:limit => 100, :sort => "new"}
   else
-    response = r.browse "all/new", {:limit => 100, :after => start_point}
+    response = r.browse "#{subreddit}/new", {:limit => 100, :sort => "new", :after => start_point}
   end
   
   end_point = response.first[:after]
@@ -51,6 +51,7 @@ def query_reddit(start_point)
 end
 
 next_seed = "t3_nlxg4"
-100000.times do 
-  next_seed = query_reddit(next_seed)
+subreddit = "all"
+100.times do 
+  next_seed = query_reddit(subreddit,next_seed)
 end
